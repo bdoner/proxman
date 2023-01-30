@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e #  -x
+set -e # -x
 source config.sh
 
 required_vars=(
@@ -85,6 +85,7 @@ case "$cmd" in
 				| sed "s/SERV_NAME/$domain/" \
 				| sed "s/LISTEN_PORTS/$lp/" \
 				| sed "s/BACKEND/\$scheme:\/\/$be/" \
+				| sed "s/LISTEN_LINE/$listen_line/" \
 				| tee $appnd "$conf_file"
 			appnd="-a"
 		done
@@ -138,7 +139,8 @@ case "$cmd" in
 		do
 			bn="$(basename "$f")"
 			echo "Domain: $bn"
-			grep -E '(listen|proxy_pass)' "$f" | sed 's/^[\t ]*//g'
+			awk '/# ld: / { print "\t" $3 }' "$f"
+			
 		done
 		;;
 
