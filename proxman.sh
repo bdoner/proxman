@@ -84,7 +84,7 @@ case "$cmd" in
 			cat nginx.conf.template \
 				| sed "s/SERV_NAME/$domain/" \
 				| sed "s/LISTEN_PORTS/$lp/" \
-				| sed "s/BACKEND/\$scheme:\/\/$be/" \
+				| sed "s/BACKEND/$be/" \
 				| sed "s/LISTEN_LINE/$listen_line/" \
 				| tee $appnd "$conf_file"
 			appnd="-a"
