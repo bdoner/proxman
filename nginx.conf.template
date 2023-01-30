@@ -1,0 +1,10 @@
+server {
+	server_name SERV_NAME;
+	listen LISTEN_PORTS;
+
+	location / {
+		proxy_pass BACKEND;
+	}
+}
+
+

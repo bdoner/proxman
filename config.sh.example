@@ -1,0 +1,2 @@
+export TOP_DOMAIN=my-domain.com
+export NGINX_CONF_DIR=/etc/nginx/proxies-enabled/
