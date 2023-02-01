@@ -4,11 +4,28 @@ server {
 	listen LISTEN_PORTS;
 
 	location / {
-		if ($scheme != "ws" ) {
-			proxy_pass $scheme://BACKEND;
+
+		set $web 1;
+		if ($scheme = "ws") {
+			set $web 0;
 		}
 
-		proxy_pass http://BACKEND;
+		if ($scheme = "wss") {
+			set $web 0;
+		}
+		
+		if ($web) {
+			proxy_pass $scheme://BACKEND;
+			break;
+		}
+
+
+		set $be_scheme "http";
+		if ($scheme = "wss") {
+			set $be_scheme "https";
+		}
+
+		proxy_pass $be_scheme://BACKEND;
 
 		proxy_http_version 1.1;
 		proxy_set_header Upgrade $http_upgrade;
